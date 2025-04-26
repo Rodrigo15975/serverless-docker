@@ -1,6 +1,18 @@
 # Nombre del servicio que se está configurando
 service: api-lamba
 
+custom:
+  prune:
+    automatic: true
+    number: 1
+
+addHttpOffline:
+  dev: [] # No define rutas adicionales en el entorno de desarrollo
+  local: # Rutas adicionales para pruebas locales
+    - httpApi:
+        method: "*" # Acepta cualquier método HTTP (GET, POST, etc.)
+        path: "/{proxy+}" # Proxy dinámico para cualquier subruta
+
 provider:
   name: aws # Proveedor del servicio: AWS
   runtime: nodejs20.x # Versión de Node.js para las funciones Lambda
@@ -19,7 +31,7 @@ functions:
     url: true # Habilita una URL para invocar directamente la función
     events: # Define los eventos disparadores de la función
       - httpApi:
-          method: "GET" # Método HTTP: GET
+          method: "" # Método HTTP: GET
           path: "/{proxy+}" # Proxy dinámico para cualquier subruta
 
 plugins:
