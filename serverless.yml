@@ -6,18 +6,13 @@ custom:
     automatic: true
     number: 1
 
-addHttpOffline:
-  dev: [] # No define rutas adicionales en el entorno de desarrollo
-  local: # Rutas adicionales para pruebas locales
-    - httpApi:
-        method: "*" # Acepta cualquier método HTTP (GET, POST, etc.)
-        path: "/{proxy+}" # Proxy dinámico para cualquier subruta
-
 provider:
   name: aws # Proveedor del servicio: AWS
   runtime: nodejs20.x # Versión de Node.js para las funciones Lambda
   region: us-east-1 # Región donde se implementará el servicio
   stage: ${opt:stage, 'dev'} # Define el entorno (stage). Usa 'dev' como predeterminado si no se especifica en la variable de entorno
+  environment:
+    DATABASE_URL: postgresql://neondb_owner:npg_SwjY95PADLqH@ep-young-field-a2uacl1x.eu-central-1.aws.neon.tech/neondb?sslmode=require
 
 package:
   individually: true # Cada función se empaquetará de forma independiente
