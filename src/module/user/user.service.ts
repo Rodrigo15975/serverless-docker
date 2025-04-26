@@ -13,6 +13,7 @@ export class UserService {
   findAll() {
     return {
       message: 'This action returns all users',
+      data: [],
       status: 200,
     }
   }

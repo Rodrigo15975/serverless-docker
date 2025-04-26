@@ -1,0 +1,26 @@
+# Nombre del servicio que se está configurando
+service: api-lamba-${opt:stage, 'dev'}
+
+provider:
+  name: aws # Proveedor del servicio: AWS
+  runtime: nodejs20.x # Versión de Node.js para las funciones Lambda
+  region: us-east-1 # Región donde se implementará el servicio
+  stage: ${opt:stage, 'dev'} # Define el entorno (stage). Usa 'dev' como predeterminado si no se especifica en la variable de entorno
+
+package:
+  individually: true # Cada función se empaquetará de forma independiente
+
+functions:
+  # Define una función Lambda llamada 'api'
+  api:
+    image: 222634373780.dkr.ecr.us-east-1.amazonaws.com/im-server:latest-v3 # URI de la imagen en ECR
+    memorySize: 256 # Asigna 256 MB de memoria
+    timeout: 20 # Tiempo máximo de ejecución: 20 segundos
+    url: true # Habilita una URL para invocar directamente la función
+    events: # Define los eventos disparadores de la función
+      - httpApi:
+          method: "GET" # Método HTTP: GET
+          path: "/{proxy+}" # Proxy dinámico para cualquier subruta
+
+plugins:
+  - serverless-offline # Permite probar funciones Lambda localmente
