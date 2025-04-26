@@ -1,12 +1,20 @@
 import serverlessExpress from '@codegenie/serverless-express'
-import { Logger } from '@nestjs/common'
+import { INestApplication, Logger } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
-import type { Callback, Context, Handler } from 'aws-lambda'
+import type {
+  Callback,
+  Context,
+  Handler,
+  APIGatewayProxyEvent,
+} from 'aws-lambda'
 import { AppModule } from './app.module'
+import { RequestListener } from 'http'
+import { Application } from 'express'
 
 let server: Handler
 const getApp = async () => {
-  const app = await NestFactory.create(AppModule)
+  const app: INestApplication =
+    await NestFactory.create<INestApplication>(AppModule)
   app.enableCors()
 
   return app
@@ -15,16 +23,24 @@ const getApp = async () => {
 const bootstrap = async (): Promise<Handler> => {
   const app = await getApp()
   await app.init()
-  const expressApp = app.getHttpAdapter().getInstance()
+  // Obtener la instancia de Express
+  const expressApp: Application = app
+    .getHttpAdapter()
+    .getInstance() as Application
 
-  return serverlessExpress({ app: expressApp })
+  // Convertir la instancia de Express en un RequestListener
+  const requestListener: RequestListener =
+    expressApp as unknown as RequestListener
+
+  // Usar el RequestListener donde sea necesario
+  return serverlessExpress({ app: requestListener })
 }
 
 export const handler: Handler = async (
-  event: any,
+  event: APIGatewayProxyEvent,
   context: Context,
   callback: Callback,
-) => {
+): Promise<Handler> => {
   server = server ?? (await bootstrap())
   return server(event, context, callback)
 }
@@ -33,4 +49,4 @@ const main = async () => {
   await app.listen(3000)
   Logger.log('Application is running on: 3000')
 }
-getApp().then(() => main())
+void getApp().then(() => main())

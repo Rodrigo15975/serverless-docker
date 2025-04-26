@@ -1,5 +1,5 @@
 # Nombre del servicio que se está configurando
-service: api-lamba-${opt:stage, 'dev'}
+service: api-lamba
 
 provider:
   name: aws # Proveedor del servicio: AWS
