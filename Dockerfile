@@ -14,6 +14,9 @@ RUN npm install
 # Copy the rest of your application's source code
 COPY . .
 
+# Generate Prisma client
+RUN npx prisma generate
+
 # Build TypeScript files
 RUN npm run build
 
@@ -29,6 +32,7 @@ WORKDIR ${LAMBDA_TASK_ROOT}
 # Copy built JavaScript files and node_modules from the build stage
 COPY --from=build /app/dist ${LAMBDA_TASK_ROOT}
 COPY --from=build /app/node_modules ${LAMBDA_TASK_ROOT}/node_modules
+COPY --from=build /app/prisma ${LAMBDA_TASK_ROOT}/prisma
 
 # Copy package.json (optional)
 COPY --from=build /app/package*.json ${LAMBDA_TASK_ROOT}
@@ -37,4 +41,5 @@ COPY --from=build /app/package*.json ${LAMBDA_TASK_ROOT}
 ENV NODE_ENV=production
 
 # Command to start the Lambda function
+# Apunta directamente a la carpeta dist/main
 CMD ["main.handler"]

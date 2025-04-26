@@ -23,16 +23,13 @@ const getApp = async () => {
 const bootstrap = async (): Promise<Handler> => {
   const app = await getApp()
   await app.init()
-  // Obtener la instancia de Express
   const expressApp: Application = app
     .getHttpAdapter()
     .getInstance() as Application
 
-  // Convertir la instancia de Express en un RequestListener
   const requestListener: RequestListener =
     expressApp as unknown as RequestListener
 
-  // Usar el RequestListener donde sea necesario
   return serverlessExpress({ app: requestListener })
 }
 

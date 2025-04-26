@@ -13,6 +13,7 @@ provider:
   stage: ${opt:stage, 'dev'} # Define el entorno (stage). Usa 'dev' como predeterminado si no se especifica en la variable de entorno
   environment:
     DATABASE_URL: postgresql://neondb_owner:npg_SwjY95PADLqH@ep-young-field-a2uacl1x.eu-central-1.aws.neon.tech/neondb?sslmode=require
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1 # Mejora el performance en Lambda
 
 package:
   individually: true # Cada función se empaquetará de forma independiente
@@ -20,13 +21,14 @@ package:
 functions:
   # Define una función Lambda llamada 'api'
   api:
-    image: 222634373780.dkr.ecr.us-east-1.amazonaws.com/im-server:latest-v3 # URI de la imagen en ECR
-    memorySize: 256 # Asigna 256 MB de memoria
+    # v4
+    image: 222634373780.dkr.ecr.us-east-1.amazonaws.com/im-server:v4 # URI de la imagen en ECR
+    memorySize: 512 # Asigna 256 MB de memoria
     timeout: 20 # Tiempo máximo de ejecución: 20 segundos
     url: true # Habilita una URL para invocar directamente la función
     events: # Define los eventos disparadores de la función
       - httpApi:
-          method: "" # Método HTTP: GET
+          method: "*" # Método HTTP: GET
           path: "/{proxy+}" # Proxy dinámico para cualquier subruta
 
 plugins:
