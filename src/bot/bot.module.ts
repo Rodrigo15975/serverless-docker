@@ -3,6 +3,7 @@ import { BotService } from './bot.service'
 import { BotController } from './bot.controller'
 
 @Module({
+  imports: [],
   controllers: [BotController],
   providers: [BotService],
 })
