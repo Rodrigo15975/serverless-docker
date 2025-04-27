@@ -1,1 +1,3 @@
-export class CreateBotDto {}
+export class CreateBotDto {
+  message: string
+}
