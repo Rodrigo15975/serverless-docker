@@ -10,7 +10,8 @@ import type {
 import { AppModule } from './app.module'
 import { RequestListener } from 'http'
 import { Application } from 'express'
-
+// se tipa con create envez de InestApplication
+// import { NestExpressApplication } from '@nestjs/platform-express'
 let server: Handler
 const getApp = async () => {
   const app: INestApplication =
@@ -44,6 +45,7 @@ export const handler: Handler = async (
 const main = async () => {
   const app = await getApp()
   await app.listen(3000)
+
   Logger.log('Application is running on: 3000')
 }
 void getApp().then(() => main())
