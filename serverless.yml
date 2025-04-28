@@ -20,9 +20,10 @@ package:
 
 functions:
   # Define una función Lambda llamada 'api'
-  api:
+  api-lambda:
     # v4
     image: 222634373780.dkr.ecr.us-east-1.amazonaws.com/im-server:v4 # URI de la imagen en ECR
+    role: arn:aws:iam::222634373780:role/Im_iam-role_lambda
     memorySize: 512 # Asigna 256 MB de memoria
     timeout: 20 # Tiempo máximo de ejecución: 20 segundos
     url: true # Habilita una URL para invocar directamente la función
