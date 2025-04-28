@@ -21,6 +21,8 @@ package:
 functions:
   # Define una función Lambda llamada 'api'
   api-lambda:
+    # nombre de la funcion lamba
+    # name: api-lambda
     # v4
     image: 222634373780.dkr.ecr.us-east-1.amazonaws.com/im-server:v4 # URI de la imagen en ECR
     role: arn:aws:iam::222634373780:role/Im_iam-role_lambda

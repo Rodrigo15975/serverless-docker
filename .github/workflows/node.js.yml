@@ -37,8 +37,9 @@ jobs:
           aws-region: us-east-1
 
       - name: Set short git commit SHA
-        id: commit
-        uses: prompt/actions-commit-hash@v2
+        run: |
+          COMMIT_SHA=$(git rev-parse --short HEAD)
+          echo "COMMIT_SHA=$COMMIT_SHA" >> $GITHUB_ENV
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -48,7 +49,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-          IMAGE_TAG: ${{ steps.commit.outputs.short }}
+          IMAGE_TAG: ${{ env.COMMIT_SHA }}
         run: |
           echo ECR_REGISTRY: $ECR_REGISTRY
           echo ECR_REPOSITORY: $ECR_REPOSITORY
