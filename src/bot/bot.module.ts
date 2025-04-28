@@ -1,10 +1,10 @@
-// import { Module } from '@nestjs/common'
-// import { BotService } from './bot.service'
-// import { BotController } from './bot.controller'
+import { Module } from '@nestjs/common'
+import { BotService } from './bot.service'
+import { BotController } from './bot.controller'
 
-// @Module({
-//   imports: [],
-//   controllers: [BotController],
-//   providers: [BotService],
-// })
-// export class BotModule {}
+@Module({
+  imports: [],
+  controllers: [BotController],
+  providers: [BotService],
+})
+export class BotModule {}
