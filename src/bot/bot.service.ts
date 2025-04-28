@@ -19,11 +19,9 @@ export class BotService {
 
   async create(createBotDto: CreateBotDto) {
     const { output } = await this.AGENT.run(createBotDto.message)
-    const content: string = output[0].content as string
 
     this.logger.debug({
       output,
-      content,
     })
   }
 }
