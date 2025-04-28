@@ -22,7 +22,10 @@ export class UserController {
 
   @Get()
   findAll() {
-    return this.userService.findAll()
+    return {
+      message: 'Change ',
+      data: [],
+    }
   }
   @Get(':id')
   findOne(@Param('id') id: string) {
