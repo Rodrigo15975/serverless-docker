@@ -66,8 +66,11 @@ jobs:
         run: |
           echo IMAGE_URI: $IMAGE_URI
 
-      # - name: Deploy to AWS Lambda
-      #   env:
-      #     FUNCTION_NAME: api-lambda
-      #   run: |
-      #     aws lambda update-function-code --function-name $FUNCTION_NAME --image-uri $IMAGE_URI
+      - name: Deploy to AWS Lambda
+        env:
+          FUNCTION_NAME: api-lamba-production-api-lambda
+          IMAGE_URI: ${{ env.IMAGE_URI }}
+        run: |
+          echo FUNCTION_NAME: $FUNCTION_NAME
+          echoi IMAGE_URI: $IMAGE_URI
+          aws lambda update-function-code --function-name $FUNCTION_NAME --image-uri $IMAGE_URI
