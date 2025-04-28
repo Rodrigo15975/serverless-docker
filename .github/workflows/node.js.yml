@@ -72,5 +72,5 @@ jobs:
           IMAGE_URI: ${{ env.IMAGE_URI }}
         run: |
           echo FUNCTION_NAME: $FUNCTION_NAME
-          echoi IMAGE_URI: $IMAGE_URI
+          echo IMAGE_URI: $IMAGE_URI
           aws lambda update-function-code --function-name $FUNCTION_NAME --image-uri $IMAGE_URI
